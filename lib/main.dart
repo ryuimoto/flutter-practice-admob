@@ -1,12 +1,22 @@
+import 'dart:js';
+
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:practice_admob/ad_state.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
 
-  runApp(MyApp());
+  final initFuture = MobileAds.instance.initialize();
+
+  final adState = AdState(initFuture);
+
+  runApp(Provider.value(
+    value: adState,
+    builder: (context,child) => MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
